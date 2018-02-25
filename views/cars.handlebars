@@ -1,0 +1,19 @@
+<a href="/">
+<input class="fa-fa-home">
+</a>
+
+<h1>{{mainheading}}</h1>
+
+<ul>
+	{{#each carData}}
+
+	<li>
+		<a href="/api/{{model}}">GET ONE</a>
+		<h4>{{ modelName }}</h4>
+		<p>$ {{pricing}}</p>
+		<p>{{modelDetails}}</p>
+		<img src="images/{{imgPath}}">
+	</li>
+	{{/each}}
+
+</ul>
