@@ -3,7 +3,9 @@ var config = {
 	password: "root",
 	port:8889,
 	host: "localhost",
-	database: "db_cooperStuff"
+	database: "db_cooperStuff",
+
+	kidsmode: false
 
 }
 

@@ -1,8 +1,11 @@
 var express = require('express');
+var router = express.Router();
 var connect = require('../utils/sqlConnect');
 var bodyParser = require('body-parser');
-var router = express.Router();
+var config = require('../config');
 
+
+var toRender = (config.kidsmode) ? 'main_kids' : 'home';
 
 //MIDDLEWARE
 
@@ -27,7 +30,14 @@ router.use((req,resp,next) => {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('home', { title: 'Car Project', message: 'I love mini coopers' });
+  // res.render('home', { title: 'Car Project', message: 'I love mini coopers' });
+
+  res.render(toRender, { 
+  	title: 'Car Project', 
+  	message: 'I love mini coopers',
+  	mainpage:true,
+  	kidsmode: config.kidsmode
+  });
 });
 
 // Get a car data
@@ -45,7 +55,7 @@ router.get('/getCars', function(req, res, next){
 					carData: result
 				});
 			}
-		})
+		});
 	});
 
 
@@ -70,7 +80,7 @@ router.get('/getCars', function(req, res, next){
 // 	});
 
 //DELETE ONE API
-// router.delete('api/:id', (req, res) => {
+// router.delete('/api/:id', (req, res) => {
 // 	console.log("hit the delete route");
 // 	console.log(req.params.id);
 // 	connection.query(`DELETE FROM mainmodel WHERE model="${req.params.id}"`, (err, result) => {
@@ -85,18 +95,16 @@ router.get('/getCars', function(req, res, next){
 
 
 //POST ONE
-
-
-router.post('api/:id', (req, res, next) => {
+router.post('/api/:id', (req, res, next) => {
 	console.log(`hit the post route`);
 	// console.log(`hit the post route with this ${req.params.id}`);
-	// connect.query(`INSERT INTO mainmodel (id, model, modelName, pricing, modelDetails, imagePath) VALUES (NULL, "${req.body.model}", "${req.body.modelName}", "${req.body.pricing}", "${req.body.modelDetails}", "${req.body.imagePath}");`, (err, data)=>{
-	// 	if (err){
-	// 		throw(err);
-	// 	} else {
-	// 		res.json(data);
-	// 	}
-	// })
+	connect.query(`INSERT INTO mainmodel (id, model, modelName, pricing, modelDetails, imgPath) VALUES (NULL, "${req.body.model}", "${req.body.modelName}", "${req.body.pricing}", "${req.body.modelDetails}", "${req.body.imgPath}");`, (err, data)=>{
+		if (err){
+			throw(err);
+		} else {
+			res.json(data);
+		}
+	});
 
 });
 
